@@ -8,9 +8,6 @@ class Cube:
         self.bottom = None
         pass
 
-    def solve(self):
-        pass
-
 
 class Color(Enum):
     white = 1
