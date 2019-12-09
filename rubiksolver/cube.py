@@ -5,6 +5,8 @@ import numpy as np
 COLOR_DICT = {"white": 1, "yellow": 2, "red": 3, "blue": 4, "green": 5, "orange": 6}
 COLOR_DICT_REV = {value: key for key, value in COLOR_DICT.items()}
 NEIGHBOR_DICT = {0: [2, 4, 3, 5], 1: [2, 4, 3, 5], 2: [0, 4, 1, 5], 3: [0, 4, 1, 5], 4: [0, 3, 1, 2], 5: [0, 3, 1, 2]}
+AXIS_DICT = {0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2}
+INDEX_DICT = {0: 0, 1: 2, 2: 0, 3: 2, 4: 0, 5: 2}
 
 
 class Side(Enum):
@@ -27,7 +29,6 @@ class Cube:
         self.cube = None
         self.init_cube()
 
-
     def init_cube(self):
         self.cube = np.array([[[i for _ in range(3)] for _ in range(3)] for i in range(1, 7)])
 
@@ -35,7 +36,8 @@ class Cube:
         cube = self.cube.copy()
         k = 1 if direction.clockwise else 3
         cube[side.value, :, :] = np.rot90(cube[side.value, :, :], k=k)
-        
+
+
 
 
 
