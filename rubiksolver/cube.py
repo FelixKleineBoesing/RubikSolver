@@ -4,9 +4,13 @@ import numpy as np
 
 COLOR_DICT = {"white": 1, "yellow": 2, "red": 3, "blue": 4, "green": 5, "orange": 6}
 COLOR_DICT_REV = {value: key for key, value in COLOR_DICT.items()}
+# This dict is used to mark which sides are aside the key side, they are stored in clockwise direction inside the list
 NEIGHBOR_DICT = {0: [2, 4, 3, 5], 1: [2, 4, 3, 5], 2: [0, 4, 1, 5], 3: [0, 4, 1, 5], 4: [0, 3, 1, 2], 5: [0, 3, 1, 2]}
+# this dict marks which side is on which axis, 0 is x, 1 is y, 2 is z
 AXIS_DICT = {0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2}
-INDEX_DICT = {0: 0, 1: 2, 2: 0, 3: 2, 4: 0, 5: 2}
+# this dict marks which side should turn which axis at what axis
+TRANSITION_AXIS_DICT = {0: {1: 1, 2: 2}, 1: {1: {1: 1, 2: 2}, 2: {0: 1, 1: 2}},
+                        3: {0: 1, 1: 2}, 4: {2: 1, 0: 2}, 5: {2: 1, 0: 2}}
 
 
 class Side(Enum):
