@@ -44,21 +44,21 @@ class Cube:
         cube[side.value, :, :] = np.rot90(cube[side.value, :, :], k=k)
         neighbors = NEIGHBOR_DICT[side.value]
         for i, n in enumerate(neighbors):
-            side_after = get_neighbor_before(i, neighbors)
-            axis_before = AXIS_DICT[n]
+            side_before = get_neighbor_before(i, neighbors)
+            axis_after = AXIS_DICT[n]
             index = INDEX_DICT[side.value]
-            axix_to_copy_to = TRANSITION_AXIS_DICT[n][axis_before]
-            axis_after = AXIS_DICT[side_after]
-            axix_to_copy_from = TRANSITION_AXIS_DICT[n][axis_after]
+            axix_to_copy_to = TRANSITION_AXIS_DICT[side.value][axis_after]
+            axis_before = AXIS_DICT[side_before]
+            axix_to_copy_from = TRANSITION_AXIS_DICT[n][axis_before]
             LI = [index, index, index]
-            LI[0] = side.value
+            LI[0] = n
             LI[axix_to_copy_to] = [0, 1, 2]
             RI = [index, index, index]
-            RI[0] = side.value
+            RI[0] = side_before
             RI[axix_to_copy_from] = [0, 1, 2]
 
             cube[tuple(LI)] = self.cube[tuple(RI)]
-
+        print(cube)
 
 def get_neighbor_before(index: int, neighbors: list):
     """
