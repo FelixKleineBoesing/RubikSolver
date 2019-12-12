@@ -6,6 +6,8 @@ COLOR_DICT = {"white": 1, "yellow": 2, "red": 3, "blue": 4, "green": 5, "orange"
 COLOR_DICT_REV = {value: key for key, value in COLOR_DICT.items()}
 # This dict is used to mark which sides are aside the key side, they are stored in clockwise direction inside the list
 NEIGHBOR_DICT = {0: [2, 4, 3, 5], 1: [2, 4, 3, 5], 2: [0, 4, 1, 5], 3: [0, 4, 1, 5], 4: [0, 3, 1, 2], 5: [0, 3, 1, 2]}
+# this dict is for specifying which index should be taken
+INDEX_DICT = {0: 0, 1: 2, 2: 0, 3: 2, 4: 0, 5: 2}
 # this dict marks which side is on which axis, 0 is x, 1 is y, 2 is z
 AXIS_DICT = {0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2}
 # this dict marks which side should turn which axis at what axis
@@ -40,13 +42,45 @@ class Cube:
         cube = self.cube.copy()
         k = 1 if direction.clockwise else 3
         cube[side.value, :, :] = np.rot90(cube[side.value, :, :], k=k)
+        neighbors = NEIGHBOR_DICT[side.value]
+        for i, n in enumerate(neighbors):
+            side_after = get_neighbor_before(i, neighbors)
+            axis_before = AXIS_DICT[n]
+            index = INDEX_DICT[side.value]
+            axix_to_copy_to = TRANSITION_AXIS_DICT[n][axis_before]
+            axis_after = AXIS_DICT[side_after]
+            axix_to_copy_from = TRANSITION_AXIS_DICT[n][axis_after]
+            LI = [index, index, index]
+            LI[0] = side.value
+            LI[axix_to_copy_to] = [0, 1, 2]
+            RI = [index, index, index]
+            RI[0] = side.value
+            RI[axix_to_copy_from] = [0, 1, 2]
+
+            cube[tuple(LI)] = self.cube[tuple(RI)]
 
 
+def get_neighbor_before(index: int, neighbors: list):
+    """
+    return the neighbor that is before the current side.
+    ATTENTION! List neighbords must be ordered in the right order
+    Example:
+        # >>> neighbors = [1, 2, 3, 4]
+        # >>> index = 2
+        # >>> print(get_neighbor_before(index, neighbors))
 
-
-
-
-
+    :param index: the index of the side in neighbords list
+    :param neighbors: list of the neighbors. the neighbor that is specified by index must be a part of neighbors
+    :return:
+    """
+    assert isinstance(neighbors, list)
+    assert isinstance(index, int)
+    assert index >= 0
+    assert index < len(neighbors) - 1, "index must be smaller than the length of the list neighbors"
+    if index == 0:
+        return neighbors[len(neighbors) - 1]
+    else:
+        return neighbors[index - 1]
 
 
 if __name__ == "__main__":
