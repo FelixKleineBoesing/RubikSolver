@@ -43,13 +43,15 @@ class Cube:
         k = 1 if direction.clockwise else 3
         cube[side.value, :, :] = np.rot90(cube[side.value, :, :], k=k)
         neighbors = NEIGHBOR_DICT[side.value]
+        if direction is Direction.counter_clockwise:
+            neighbors = list(reversed(neighbors))
         for i, n in enumerate(neighbors):
             side_before = get_neighbor_before(i, neighbors)
             axis_after = AXIS_DICT[n]
             index = INDEX_DICT[side.value]
             axis_to_copy_to = TRANSITION_AXIS_DICT[side.value][axis_after]
             axis_before = AXIS_DICT[side_before]
-            axix_to_copy_from = TRANSITION_AXIS_DICT[n][axis_before]
+            axix_to_copy_from = TRANSITION_AXIS_DICT[side.value][axis_before]
             LI = [index, index, index]
             LI[0] = n
             LI[axis_to_copy_to] = [0, 1, 2]
@@ -59,6 +61,10 @@ class Cube:
 
             cube[tuple(LI)] = self.cube[tuple(RI)]
         self.cube = cube
+
+    def __str__(self):
+        for i in self.cube.shape[0]:
+            print(self.cube[i, :, :])
 
 
 def get_neighbor_before(index: int, neighbors: list):
