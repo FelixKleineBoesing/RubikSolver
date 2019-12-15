@@ -36,9 +36,21 @@ class Cube:
         self.init_cube()
 
     def init_cube(self):
+        """
+        initialises a solved cube
+
+        :return:
+        """
         self.cube = np.array([[[i for _ in range(3)] for _ in range(3)] for i in range(1, 7)])
 
     def rotate(self, side: Side, direction: Direction):
+        """
+        rotates the specified side of this cube by the specified direction
+
+        :param side:
+        :param direction:
+        :return:
+        """
         cube = self.cube.copy()
         k = 1 if direction is direction.clockwise else 3
         cube[side.value, :, :] = np.rot90(cube[side.value, :, :], k=k)
@@ -61,6 +73,19 @@ class Cube:
 
             cube[tuple(LI)] = self.cube[tuple(RI)]
         self.cube = cube
+
+    def solved(self):
+        """
+        indicates whether the cube is solved or not
+
+        :return:
+        """
+        solved = True
+        for i in range(self.cube.shape[0]):
+            solved = solved & (np.sum(self.cube[i, :, :] == i + 1) == 9)
+            if not solved:
+                break
+        return solved
 
     def __str__(self):
         for i in self.cube.shape[0]:

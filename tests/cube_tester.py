@@ -66,15 +66,13 @@ class CubeTester(unittest.TestCase):
         directions = [Direction.clockwise, Direction.clockwise]
         reversed_directions = [reverse_directions[dir_] for dir_ in reversed(directions)]
 
-        first_iteration_cube = None
+        self.assertTrue(cube.solved())
         for direc, side in zip(directions, sides):
             cube.rotate(side, direc)
-            if not first_iteration_cube:
-                first_iteration_cube = copy.deepcopy(cube)
-
+        self.assertFalse(cube.solved())
         for direc, side in zip(reversed_directions, reversed_sides):
             cube.rotate(side, direc)
-
+        self.assertTrue(cube.solved())
         self.assertTrue(np.array_equal(cube.cube, initial_cube.cube))
 
 
