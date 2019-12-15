@@ -17,7 +17,7 @@ class CubeTester(unittest.TestCase):
     def test_naive(self):
         cube = Cube()
         initial_cube = copy.deepcopy(cube)
-        number_rotations = 2
+        number_rotations = 2000
 
         reverse_directions = {Direction.counter_clockwise: Direction.clockwise,
                               Direction.clockwise: Direction.counter_clockwise}
@@ -66,8 +66,11 @@ class CubeTester(unittest.TestCase):
         directions = [Direction.clockwise, Direction.clockwise]
         reversed_directions = [reverse_directions[dir_] for dir_ in reversed(directions)]
 
+        first_iteration_cube = None
         for direc, side in zip(directions, sides):
             cube.rotate(side, direc)
+            if not first_iteration_cube:
+                first_iteration_cube = copy.deepcopy(cube)
 
         for direc, side in zip(reversed_directions, reversed_sides):
             cube.rotate(side, direc)

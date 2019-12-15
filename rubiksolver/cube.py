@@ -40,7 +40,7 @@ class Cube:
 
     def rotate(self, side: Side, direction: Direction):
         cube = self.cube.copy()
-        k = 1 if direction.clockwise else 3
+        k = 1 if direction is direction.clockwise else 3
         cube[side.value, :, :] = np.rot90(cube[side.value, :, :], k=k)
         neighbors = NEIGHBOR_DICT[side.value]
         if direction is Direction.counter_clockwise:
