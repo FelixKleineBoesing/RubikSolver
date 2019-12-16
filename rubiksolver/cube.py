@@ -1,6 +1,6 @@
 from aenum import Enum
 import numpy as np
-
+import random
 
 COLOR_DICT = {"white": 1, "yellow": 2, "red": 3, "blue": 4, "green": 5, "orange": 6}
 COLOR_DICT_REV = {value: key for key, value in COLOR_DICT.items()}
@@ -29,6 +29,10 @@ class Direction(Enum):
     counter_clockwise = 1
 
 
+all_sides = [Side.back, Side.bottom, Side.front, Side.left, Side.right, Side.top]
+all_directions = [Direction.clockwise, Direction.counter_clockwise]
+
+
 class Cube:
 
     def __init__(self):
@@ -42,6 +46,18 @@ class Cube:
         :return:
         """
         self.cube = np.array([[[i for _ in range(3)] for _ in range(3)] for i in range(1, 7)])
+
+    def init_random_cube(self, number_rotations: int = 50):
+        """
+        initialises a solved cube
+
+        :return:
+        """
+        self.cube = np.array([[[i for _ in range(3)] for _ in range(3)] for i in range(1, 7)])
+        sides = [random.choice(all_sides) for _ in range(number_rotations)]
+        directions = [random.choice(all_directions) for _ in range(number_rotations)]
+        for side, direc in zip(sides, directions):
+            self.rotate(side, direc)
 
     def rotate(self, side: Side, direction: Direction):
         """

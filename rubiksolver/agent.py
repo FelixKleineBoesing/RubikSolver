@@ -24,6 +24,11 @@ class CubeWrapper:
             self.rewards = {"solved": {True: 1000, False: 0}}
         self.rewards = reward_function
         self.cube = Cube()
+        self.cube.init_random_cube(50)
+
+    def solve(self, agent):
+        pass
+
 
     def take_action(self, action: int = 0):
         assert 15 >= action >= 0
