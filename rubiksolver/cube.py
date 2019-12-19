@@ -131,6 +131,27 @@ def get_neighbor_before(index: int, neighbors: list):
         return neighbors[index - 1]
 
 
+class ActionSerializer:
+
+    @staticmethod
+    def serialize(direction: Direction, side: Side) -> int:
+        return direction.value * 6 + side.value
+
+    @staticmethod
+    def deserialize(action: int) -> (Side, Direction):
+        assert 11 >= action >= 0
+        assert isinstance(action, int)
+        direction = int(action / 6)
+        side = action % 6
+        assert 6 >= side >= 0
+        if direction > 0:
+            direction = Direction.counter_clockwise
+        else:
+            direction = Direction.clockwise
+        side = Side(side)
+        return side, direction
+
+
 if __name__ == "__main__":
     cube = Cube()
     cube.init_cube()
