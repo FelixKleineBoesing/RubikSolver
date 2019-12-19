@@ -53,7 +53,7 @@ class Cube:
 
         :return:
         """
-        self.cube = np.array([[[i for _ in range(3)] for _ in range(3)] for i in range(1, 7)])
+        self.init_cube()
         sides = [random.choice(all_sides) for _ in range(number_rotations)]
         directions = [random.choice(all_directions) for _ in range(number_rotations)]
         for side, direc in zip(sides, directions):
