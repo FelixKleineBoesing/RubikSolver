@@ -10,7 +10,7 @@ class RandomAgent(Agent):
         super().__init__()
 
     def _get_action(self, state: np.ndarray):
-        return np.random.choice(Direction), np.random.choice(Side)
+        return int(np.random.choice(list(range(12))))
 
     def get_feedback(self, state: np.ndarray, action: int, reward: float, next_state: np.ndarray, next_action: float,
                      finished: bool):

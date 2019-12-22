@@ -20,6 +20,17 @@ class ReplayBuffer:
         return len(self._storage)
 
     def add(self, obs_t, action, reward, obs_tp1, done):
+        """
+        adds a observation to the ReplayBuffer
+
+
+        :param obs_t:
+        :param action:
+        :param reward:
+        :param obs_tp1:
+        :param done:
+        :return:
+        """
         data = (obs_t, action, reward, obs_tp1, done)
 
         if self._next_idx >= len(self._storage):
@@ -42,12 +53,8 @@ class ReplayBuffer:
 
     def sample(self, batch_size):
         """Sample a batch of experiences.
-        Parameters
-        ----------
-        batch_size: int
-            How many transitions to sample.
-        Returns
-        -------
+        :param batch_size: How many transitions to sample.
+
         obs_batch: np.array
             batch of observations
         act_batch: np.array

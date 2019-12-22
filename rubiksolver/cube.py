@@ -45,7 +45,7 @@ class Cube:
 
         :return:
         """
-        self.cube = np.array([[[i for _ in range(3)] for _ in range(3)] for i in range(1, 7)])
+        self.cube = np.array([[[i for _ in range(3)] for _ in range(3)] for i in range(0, 6)])
 
     def init_random_cube(self, number_rotations: int = 50):
         """
@@ -98,7 +98,7 @@ class Cube:
         """
         solved = True
         for i in range(self.cube.shape[0]):
-            solved = solved & (np.sum(self.cube[i, :, :] == i + 1) == 9)
+            solved = solved & (np.sum(self.cube[i, :, :] == i) == 9)
             if not solved:
                 break
         return solved
@@ -143,7 +143,7 @@ class ActionSerializer:
         assert isinstance(action, int)
         direction = int(action / 6)
         side = action % 6
-        assert 6 >= side >= 0
+        assert 5 >= side >= 0
         if direction > 0:
             direction = Direction.counter_clockwise
         else:
