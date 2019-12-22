@@ -3,3 +3,5 @@
 rubiksolver/__pycache__/
 
 *.pyc
+
+data/weights/dqn/
